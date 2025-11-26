@@ -1,14 +1,18 @@
-# Step 1: Use an official OpenJDK image as base
-FROM openjdk:17-jdk-alpine
+# ===== Stage 1: Build the application =====
+FROM maven:3.9.6-eclipse-temurin-21 AS build
 
-# Step 2: Set a working directory inside the container
 WORKDIR /app
+COPY pom.xml .
+COPY src ./src
 
-# Step 3: Copy the packaged jar into the container
-COPY target/*.jar app.jar
+RUN mvn clean package -DskipTests
 
-# Step 4: Expose the port your Spring Boot app runs on
+# ===== Stage 2: Run the application =====
+FROM eclipse-temurin:21-jdk
+
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
+
 EXPOSE 8080
 
-# Step 5: Run the jar file
 ENTRYPOINT ["java", "-jar", "app.jar"]
