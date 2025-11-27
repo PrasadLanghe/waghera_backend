@@ -1,6 +1,5 @@
 package com.moonlite.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,14 +12,11 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import static org.springframework.security.config.Customizer.withDefaults;
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
-    @Value("${app.cors.allowed-origins}")
-    private String allowedOrigins;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -28,30 +24,39 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)  // disable Spring Security CORS
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()    // ✔ Allow ALL requests
-                )
-                .httpBasic(AbstractHttpConfigurer::disable)  // ✔ Disable default login popup
-                .formLogin(AbstractHttpConfigurer::disable)  // ✔ Disable login form
-                .logout(AbstractHttpConfigurer::disable)     // ✔ Disable logout
-                .cors(withDefaults());
+                        .anyRequest().permitAll()
+                );
 
         return http.build();
     }
 
+    // ---- SINGLE CLEAN CORS CONFIG ----
     @Bean
     public CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin(allowedOrigins);
+
+        // ALLOW ALL YOUR FRONTENDS
+        config.setAllowedOrigins(Arrays.asList(
+                "http://localhost:5173",
+                "https://waghera-frontend.onrender.com"
+        ));
+
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
+        // IMPORTANT: MUST BE /**  (NOT /)
         source.registerCorsConfiguration("/**", config);
+
         return new CorsFilter(source);
     }
 }
