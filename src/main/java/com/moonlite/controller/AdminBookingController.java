@@ -1,0 +1,68 @@
+package com.moonlite.controller;
+
+import com.moonlite.exception.ResourceNotFoundException;
+import com.moonlite.model.Booking;
+import com.moonlite.model.BookingRequest;
+import com.moonlite.model.BookingResponse;
+import com.moonlite.service.BookingService;
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api")
+@CrossOrigin(origins = "*")
+@RequiredArgsConstructor
+public class AdminBookingController {
+
+    private final BookingService bookingService;
+    
+    public AdminBookingController(BookingService bookingService)
+    {
+    	this.bookingService=bookingService;
+    }
+
+    // Fetch all bookings for admin
+    @GetMapping("/admin/bookings/all")
+    public ResponseEntity<List<BookingResponse>> getAllBookingsForAdmin() {
+        List<BookingResponse> bookings = bookingService.getAllBookings();
+        return ResponseEntity.ok(bookings);
+    }
+    
+    
+ // -------------------- DELETE BOOKING --------------------
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteBooking(@PathVariable("id") Long bookingId) {
+        bookingService.deleteBooking(bookingId);
+        return ResponseEntity.ok("Booking with ID " + bookingId + " has been deleted successfully.");
+    }
+
+    
+    
+    
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateBooking(
+            @PathVariable("id") Long bookingId,
+            @RequestBody BookingRequest request
+    ) {
+        try {
+            Booking updatedBooking = bookingService.updateBooking(bookingId, request);
+            return ResponseEntity.ok(updatedBooking);
+        } catch (ResourceNotFoundException ex) {
+            return ResponseEntity.status(404).body(Map.of("error", ex.getMessage()));
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().body(Map.of("error", ex.getMessage()));
+        } catch (RuntimeException ex) {
+            return ResponseEntity.status(409).body(Map.of("error", ex.getMessage()));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return ResponseEntity.status(500).body(Map.of("error", "Internal server error"));
+        }
+    }
+
+
+}

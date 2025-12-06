@@ -1,35 +1,160 @@
+//package com.moonlite.model;
+//
+//
+//import jakarta.persistence.*;
+//import lombok.*;
+//import java.time.LocalDate;
+//
+//@Entity
+//@Table(name = "bookings")
+//@Data
+//@NoArgsConstructor
+//@AllArgsConstructor
+//public class Booking {
+//
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
+//
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "room_id", nullable = false)
+//    private AdminRoom room;
+//
+//    private LocalDate checkInDate;
+//    private LocalDate checkOutDate;
+//	public Long getId() {
+//		return id;
+//	}
+//	public void setId(Long id) {
+//		this.id = id;
+//	}
+//	public AdminRoom getRoom() {
+//		return room;
+//	}
+//	public void setRoom(AdminRoom room) {
+//		this.room = room;
+//	}
+//	public LocalDate getCheckInDate() {
+//		return checkInDate;
+//	}
+//	public void setCheckInDate(LocalDate checkInDate) {
+//		this.checkInDate = checkInDate;
+//	}
+//	public LocalDate getCheckOutDate() {
+//		return checkOutDate;
+//	}
+//	public void setCheckOutDate(LocalDate checkOutDate) {
+//		this.checkOutDate = checkOutDate;
+//	}
+//	public Booking(Long id, AdminRoom room, LocalDate checkInDate, LocalDate checkOutDate) {
+//		super();
+//		this.id = id;
+//		this.room = room;
+//		this.checkInDate = checkInDate;
+//		this.checkOutDate = checkOutDate;
+//	}
+//	public Booking() {
+//		super();
+//	}
+//	
+//    
+//}
+
+
+
 package com.moonlite.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.hibernate.annotations.NotFound;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Data
+@Table(name = "bookings")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Booking {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String checkIn;
-    private String checkOut;
+    // Many bookings -> one room
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "room_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private AdminRoom room;
+
+    // Many bookings -> one user
+    @NotFound
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private User user;
+
+    private LocalDate checkInDate;
+    private LocalDate checkOutDate;
 
     private int adults;
     private int children;
     private int extraBed;
 
-    private String extraServices; // comma separated
-    private Double totalPrice;
+    // Total price computed on booking
+    private double totalPrice;
 
-    // ⭐ MANY BOOKINGS → ONE ROOM TYPE
-    @ManyToOne
-    @JoinColumn(name = "room_type_id")
-    private RoomType roomType;
+    // services attached to booking
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "booking_services",
+        joinColumns = @JoinColumn(name = "booking_id"),
+        inverseJoinColumns = @JoinColumn(name = "service_id")
+    )
+    private List<ExtraService> extraServices;
 
-    // ⭐ MANY BOOKINGS → ONE USER
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+   
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
+
+	public Booking(Long id, AdminRoom room, User user, LocalDate checkInDate, LocalDate checkOutDate, int adults,
+			int children, int extraBed, double totalPrice, List<ExtraService> extraServices, LocalDateTime createdAt,
+			LocalDateTime updatedAt) {
+		super();
+		this.id = id;
+		this.room = room;
+		this.user = user;
+		this.checkInDate = checkInDate;
+		this.checkOutDate = checkOutDate;
+		this.adults = adults;
+		this.children = children;
+		this.extraBed = extraBed;
+		this.totalPrice = totalPrice;
+		this.extraServices = extraServices;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+	}
+
+	public Booking() {
+		super();
+	}
 
 	public Long getId() {
 		return id;
@@ -39,20 +164,36 @@ public class Booking {
 		this.id = id;
 	}
 
-	public String getCheckIn() {
-		return checkIn;
+	public AdminRoom getRoom() {
+		return room;
 	}
 
-	public void setCheckIn(String checkIn) {
-		this.checkIn = checkIn;
+	public void setRoom(AdminRoom room) {
+		this.room = room;
 	}
 
-	public String getCheckOut() {
-		return checkOut;
+	public User getUser() {
+		return user;
 	}
 
-	public void setCheckOut(String checkOut) {
-		this.checkOut = checkOut;
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public LocalDate getCheckInDate() {
+		return checkInDate;
+	}
+
+	public void setCheckInDate(LocalDate checkInDate) {
+		this.checkInDate = checkInDate;
+	}
+
+	public LocalDate getCheckOutDate() {
+		return checkOutDate;
+	}
+
+	public void setCheckOutDate(LocalDate checkOutDate) {
+		this.checkOutDate = checkOutDate;
 	}
 
 	public int getAdults() {
@@ -79,56 +220,38 @@ public class Booking {
 		this.extraBed = extraBed;
 	}
 
-	public String getExtraServices() {
-		return extraServices;
-	}
-
-	public void setExtraServices(String extraServices) {
-		this.extraServices = extraServices;
-	}
-
-	public Double getTotalPrice() {
+	public double getTotalPrice() {
 		return totalPrice;
 	}
 
-	public void setTotalPrice(Double totalPrice) {
+	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;
 	}
 
-	public RoomType getRoomType() {
-		return roomType;
+	public List<ExtraService> getExtraServices() {
+		return extraServices;
 	}
 
-	public void setRoomType(RoomType roomType) {
-		this.roomType = roomType;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	private Booking(Long id, String checkIn, String checkOut, int adults, int children, int extraBed,
-			String extraServices, Double totalPrice, RoomType roomType, User user) {
-		super();
-		this.id = id;
-		this.checkIn = checkIn;
-		this.checkOut = checkOut;
-		this.adults = adults;
-		this.children = children;
-		this.extraBed = extraBed;
+	public void setExtraServices(List<ExtraService> extraServices) {
 		this.extraServices = extraServices;
-		this.totalPrice = totalPrice;
-		this.roomType = roomType;
-		this.user = user;
 	}
 
-	public Booking() {
-		super();
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
 	}
-    
-    
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+	
+	
 }
+

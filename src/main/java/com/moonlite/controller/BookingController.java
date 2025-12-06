@@ -1,46 +1,99 @@
+//package com.moonlite.controller;
+//
+//
+//import com.moonlite.model.Booking;
+//import com.moonlite.model.BookingRequest;
+//import com.moonlite.service.BookingService;
+//
+//import lombok.RequiredArgsConstructor;
+//import org.springframework.http.ResponseEntity;
+//import org.springframework.web.bind.annotation.*;
+//
+//@RestController
+//@RequestMapping("/api/bookings")
+//@CrossOrigin(origins = "*")
+//@RequiredArgsConstructor
+//public class BookingController {
+//
+//    private final BookingService bookingService;
+//
+//    
+//    public BookingController(BookingService bookingService)
+//    {
+//    	this.bookingService=bookingService;
+//    }
+//    
+//    @PostMapping
+//    public ResponseEntity<?> createBooking(@RequestBody BookingRequest request) {
+//        try {
+//            Booking booking = bookingService.createBooking(request);
+//            return ResponseEntity.ok(booking);
+//
+//        } catch (RuntimeException e) {
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
+//    }
+//}
+//
+
+
+
+
+
+
+
 package com.moonlite.controller;
 
-import com.moonlite.payload.BookingRequest;
 import com.moonlite.model.Booking;
+import com.moonlite.model.BookingRequest;
 import com.moonlite.service.BookingService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/booking")
+@RequestMapping("/api/bookings")
 @CrossOrigin(origins = "*")
+@RequiredArgsConstructor
 public class BookingController {
 
-    @Autowired
-    private BookingService bookingService;
+    private final BookingService bookingService;
 
-//    @PostMapping("/create")
-//    public Booking createBooking(@RequestBody BookingRequest bookingRequest) {
-//        return bookingService.createBooking(bookingRequest);
-//    }
+    public BookingController(BookingService bookingService)
+    {
+    	this.bookingService=bookingService;
+    }
     
-    
-    
-//    new code for the  pdf 
-    
-    @PostMapping("/create")
-    public ResponseEntity<byte[]> createBookingAndDownload(@RequestBody BookingRequest req) {
+    @PostMapping
+    public ResponseEntity<?> createBooking(@RequestBody BookingRequest request) {
+        try {
+            Booking booking = bookingService.createBooking(request);
+            return ResponseEntity.ok(booking);
 
-        // 1. Create booking
-        Booking booking = bookingService.createBooking(req);
-
-        // 2. Generate PDF for the created booking
-        byte[] pdfBytes = bookingService.generateBookingPdf(booking);
-
-        // 3. Return PDF as response (auto-download)
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION,
-                        "attachment; filename=booking_" + booking.getId() + ".pdf")
-                .contentType(MediaType.APPLICATION_PDF)
-                .body(pdfBytes);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
+    
+//    @GetMapping("/admin/all")
+//    public ResponseEntity<?> getAllBookingsForAdmin() {
+//        return ResponseEntity.ok(bookingService.getAllBookings());
+//    }
+
+    // Optional endpoint to create booking and return PDF directly (download)
+    @PostMapping("/create-with-pdf")
+    public ResponseEntity<byte[]> createBookingAndDownloadPdf(@RequestBody BookingRequest request) {
+        Booking booking = bookingService.createBooking(request);
+        byte[] pdf = bookingService.generateBookingPdf(booking);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentDisposition(ContentDisposition.attachment()
+                .filename("booking_" + booking.getId() + ".pdf")
+                .build());
+        headers.setContentType(MediaType.APPLICATION_PDF);
+
+        return new ResponseEntity<>(pdf, headers, HttpStatus.OK);
+    }
 }
+

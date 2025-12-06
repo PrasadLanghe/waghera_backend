@@ -13,6 +13,12 @@
 	import com.moonlite.payload.SignUpRequest;
 	import com.moonlite.service.UserService;
 
+	
+	import jakarta.servlet.http.HttpServletRequest;
+	import jakarta.servlet.http.HttpServletResponse;
+	import jakarta.servlet.http.HttpSession;
+	import org.springframework.web.bind.annotation.PostMapping;
+	import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 import java.util.Optional;
 	
@@ -104,4 +110,32 @@ import java.util.Optional;
 	        ), HttpStatus.UNAUTHORIZED);
 	    }
 
+	    
+	    
+	    
+	    
+//	    Logout Functioality
+	    
+
+
+	        @PostMapping("/logout")
+	        public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
+	            // Get the current session, if exists
+	            HttpSession session = request.getSession(false);
+
+	            if (session != null) {
+	                session.invalidate(); // Invalidate the session
+	            }
+
+	            // Optionally, you can clear cookies if you set any
+//	            javax.servlet.http.Cookie cookie = new javax.servlet.http.Cookie("JSESSIONID", null);
+//	            cookie.setPath("/");
+//	            cookie.setMaxAge(0);
+//	            response.addCookie(cookie);
+
+	            return ResponseEntity.ok("Logged out successfully");
+	        }
+	    
+	    
+	    
 	}
