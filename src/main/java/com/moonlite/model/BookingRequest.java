@@ -50,7 +50,11 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.util.List;
 
+<<<<<<< HEAD
 @Data
+=======
+
+>>>>>>> ee8c5a4 (Save local changes before pulling)
 public class BookingRequest {
 	
 	private String name;      // optional, to update user's name

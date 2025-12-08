@@ -7,7 +7,11 @@ package com.moonlite.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+<<<<<<< HEAD
 @Data
+=======
+
+>>>>>>> ee8c5a4 (Save local changes before pulling)
 @Entity
 @Table(name = "activities")
 public class Activity {

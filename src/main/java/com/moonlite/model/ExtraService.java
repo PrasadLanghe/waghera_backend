@@ -6,10 +6,14 @@ import lombok.*;
 
 @Entity
 @Table(name = "extra_services")
+<<<<<<< HEAD
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+=======
+
+>>>>>>> ee8c5a4 (Save local changes before pulling)
 public class ExtraService {
 
     @Id

@@ -1,0 +1,32 @@
+package com.moonlite.model;
+
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+
+@Entity
+@Table(name = "admin_room")
+@Data
+
+public class AdminRoom {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "room_name", nullable = false)
+    private String roomName;
+
+    @Column(name = "type")
+    private String type;
+
+    @Column(name = "price")
+    private double price;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", length = 20)
+    private RoomStatus status;
+
+    
+}

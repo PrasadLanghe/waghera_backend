@@ -14,13 +14,13 @@ import java.util.Optional;
 @Service
 public class UserService {
 	
-	@Autowired
+//	@Autowired
 	private EmailService emailService;
 	
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Autowired
+//    @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;

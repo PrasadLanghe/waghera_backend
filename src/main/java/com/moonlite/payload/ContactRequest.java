@@ -3,7 +3,11 @@ package com.moonlite.payload;
 
 import lombok.Data;
 
+<<<<<<< HEAD
 @Data
+=======
+//@Data
+>>>>>>> ee8c5a4 (Save local changes before pulling)
 public class    ContactRequest {
     private String name;
     private String email;

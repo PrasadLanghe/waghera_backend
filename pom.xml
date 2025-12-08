@@ -114,12 +114,16 @@
     <version>4.0.5</version>
 </dependency>
 
+<<<<<<< HEAD
 		
 		<dependency>
     <groupId>org.projectlombok</groupId>
     <artifactId>lombok</artifactId>
     <scope>provided</scope>
 </dependency>
+=======
+
+>>>>>>> ee8c5a4 (Save local changes before pulling)
 
 
 		<dependency>
@@ -152,11 +156,15 @@
 			<artifactId>spring-boot-starter-webmvc-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+<<<<<<< HEAD
 		<dependency>
 			<groupId>com.lock</groupId>
 			<artifactId>CRUD_Manualy</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+=======
+
+>>>>>>> ee8c5a4 (Save local changes before pulling)
 	</dependencies>
 
 	<build>

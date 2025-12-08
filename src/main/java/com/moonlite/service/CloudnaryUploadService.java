@@ -18,7 +18,11 @@ public class CloudnaryUploadService implements ImageUploadService {
     // Spring will automatically inject the Cloudinary bean configured in CloudinaryConfig
     private final Cloudinary cloudinary;
 
+<<<<<<< HEAD
     @Autowired
+=======
+//    @Autowired
+>>>>>>> ee8c5a4 (Save local changes before pulling)
     public CloudnaryUploadService(Cloudinary cloudinary) {
         this.cloudinary = cloudinary;
     }

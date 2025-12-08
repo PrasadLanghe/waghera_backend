@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //package com.moonlite.model;
 //
 //
@@ -59,6 +60,9 @@
 //	
 //    
 //}
+=======
+
+>>>>>>> ee8c5a4 (Save local changes before pulling)
 
 
 
@@ -77,10 +81,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "bookings")
+<<<<<<< HEAD
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+=======
+
+>>>>>>> ee8c5a4 (Save local changes before pulling)
 public class Booking {
 
     @Id

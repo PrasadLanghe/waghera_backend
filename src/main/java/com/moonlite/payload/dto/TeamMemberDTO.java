@@ -4,9 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+<<<<<<< HEAD
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+=======
+//@Data
+//@AllArgsConstructor
+//@NoArgsConstructor
+>>>>>>> ee8c5a4 (Save local changes before pulling)
 public class TeamMemberDTO {
     private Long id;
     private String name;

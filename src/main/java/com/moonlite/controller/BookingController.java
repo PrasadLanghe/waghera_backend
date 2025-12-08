@@ -54,7 +54,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/bookings")
 @CrossOrigin(origins = "*")
+<<<<<<< HEAD
 @RequiredArgsConstructor
+=======
+
+>>>>>>> ee8c5a4 (Save local changes before pulling)
 public class BookingController {
 
     private final BookingService bookingService;

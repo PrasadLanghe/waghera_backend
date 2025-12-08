@@ -1,0 +1,164 @@
+//package com.moonlite.service;
+//
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.mail.SimpleMailMessage;
+//import org.springframework.mail.javamail.JavaMailSender;
+//import org.springframework.stereotype.Service;
+//
+//@Service
+//public class EmailService {
+//
+//    @Autowired
+//    private JavaMailSender mailSender;
+//
+//    public void sendRegistrationEmail(String toEmail, String userName) {
+//
+//        SimpleMailMessage message = new SimpleMailMessage();
+//        message.setTo(toEmail);
+//        message.setSubject("Welcome to Waghera Agro!");	
+//        message.setText("Hello " + userName + ",\n\nYour registration is successful!\n\nThank you.\nWaghera Agro Tourism Team");
+//
+//        mailSender.send(message);
+//    }
+//    
+//   
+//    public void sendBookingConfirmation(String toEmail, String subject, String body) {
+//        SimpleMailMessage msg = new SimpleMailMessage();
+//
+//        msg.setTo(toEmail);
+//        msg.setSubject(subject);
+//        msg.setText(body);
+//
+//        mailSender.send(msg);
+//    }
+//
+//   
+//}
+
+
+
+
+
+
+
+package com.moonlite.service;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
+
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.util.ByteArrayDataSource;
+@Service
+@RequiredArgsConstructor
+public class EmailService {
+	
+    private final JavaMailSender mailSender;
+    public EmailService(JavaMailSender mailSender)
+    {
+    	this.mailSender=mailSender;
+    }
+    
+    
+    public void sendRegistrationEmail(String toEmail, String userName) {
+
+        try {
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+
+            helper.setTo(toEmail);
+            helper.setSubject("🎉 Welcome to Waghera Agro Tourism – Registration Successful!");
+
+            String htmlMsg = """
+                    <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f4;">
+                        <div style="max-width: 600px; margin: auto; background: white; border-radius: 10px; padding: 20px;">
+                            
+                            <h2 style="color: #2c7a7b; text-align:center;">🌿 Welcome to Waghera Agro Tourism 🌿</h2>
+                            
+                            <p style="font-size: 16px;">Hello <b>%s</b>,</p>
+
+                            <p style="font-size: 15px; color:#444;">
+                                We’re excited to inform you that your <b>registration is successful!</b><br>
+                                Thank you for joining the Waghera Agro family. We look forward to serving you!
+                            </p>
+
+                            <hr style="margin: 20px 0;">
+
+                            <h3 style="color: #2c7a7b;">📞 Contact Information</h3>
+                            <p>
+                                <b>Phone:</b> +91 9876543210<br>
+                                <b>Email:</b> support@wagheraagro.com<br>
+                                <b>Instagram:</b> <a href="https://instagram.com/wagheraagro" style="color:#3182ce;">@wagheraagro</a>
+                            </p>
+
+                            <hr style="margin: 20px 0;">
+
+                            <p style="font-size: 14px; color:#555;">
+                                If you have any questions or need assistance, feel free to reach out anytime.
+                                <br><br>
+                                Regards,<br>
+                                <b>Waghera Agro Tourism Team</b>
+                            </p>
+
+                        </div>
+                    </div>
+                    """.formatted(userName);
+
+            helper.setText(htmlMsg, true);
+            mailSender.send(mimeMessage);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    
+    
+
+//    public void sendEmailWithAttachment(String to, String subject, String htmlBody, byte[] attachmentBytes, String attachmentName) {
+//        MimeMessage msg = mailSender.createMimeMessage();
+//
+//        try {
+//            MimeMessageHelper helper = new MimeMessageHelper(msg, true, "UTF-8");
+//            helper.setTo(to);
+//            helper.setSubject(subject);
+//            helper.setText(htmlBody, true);
+//            helper.addAttachment(attachmentName, new ByteArrayResource(attachmentBytes));
+//
+//            mailSender.send(msg);
+//        } catch (MessagingException e) {
+//            throw new RuntimeException("Failed to send email: " + e.getMessage(), e);
+//        }
+//    }
+    
+    
+    
+    
+
+    public void sendEmailWithAttachment(String to, String subject, String htmlBody, byte[] attachmentBytes, String attachmentName) {
+        MimeMessage msg = mailSender.createMimeMessage();
+
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(msg, true, "UTF-8");
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(htmlBody, true);
+
+            ByteArrayDataSource dataSource = new ByteArrayDataSource(attachmentBytes, "application/pdf");
+            helper.addAttachment(attachmentName, dataSource);
+
+            mailSender.send(msg);
+        } catch (MessagingException e) {
+            throw new RuntimeException("Failed to send email: " + e.getMessage(), e);
+        }
+    }
+
+    
+    
+    
+}
+

@@ -5,7 +5,11 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
+<<<<<<< HEAD
 @Data
+=======
+//@Data
+>>>>>>> ee8c5a4 (Save local changes before pulling)
 
 @Builder
 

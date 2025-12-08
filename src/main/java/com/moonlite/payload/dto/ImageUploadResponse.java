@@ -1,10 +1,18 @@
 package com.moonlite.payload.dto;
 
+<<<<<<< HEAD
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
+=======
+
+import lombok.Data;
+
+//@Data
+//@AllArgsConstructor
+>>>>>>> ee8c5a4 (Save local changes before pulling)
 public class ImageUploadResponse {
     private String url;
     private String category;

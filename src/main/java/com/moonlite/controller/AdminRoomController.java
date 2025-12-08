@@ -11,7 +11,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/admin/rooms")
 @CrossOrigin(origins = "*")
+<<<<<<< HEAD
 @RequiredArgsConstructor
+=======
+
+>>>>>>> ee8c5a4 (Save local changes before pulling)
 public class AdminRoomController {
 
     private final AdminRoomService roomService;

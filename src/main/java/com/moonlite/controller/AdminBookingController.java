@@ -16,7 +16,11 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "*")
+<<<<<<< HEAD
 @RequiredArgsConstructor
+=======
+
+>>>>>>> ee8c5a4 (Save local changes before pulling)
 public class AdminBookingController {
 
     private final BookingService bookingService;

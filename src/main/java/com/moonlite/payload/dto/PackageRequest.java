@@ -2,7 +2,11 @@ package com.moonlite.payload.dto;
 
 import lombok.Data;
 
+<<<<<<< HEAD
 @Data
+=======
+//@Data
+>>>>>>> ee8c5a4 (Save local changes before pulling)
 public class PackageRequest {
     private String packageName;
     private Double price;

@@ -9,9 +9,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+<<<<<<< HEAD
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+=======
+
+>>>>>>> ee8c5a4 (Save local changes before pulling)
 public class TeamMember {
 
     @Id

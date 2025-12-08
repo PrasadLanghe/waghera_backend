@@ -1,0 +1,195 @@
+
+
+package com.moonlite.model;
+import com.moonlite.model.*;
+import jakarta.persistence.*;
+import lombok.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.hibernate.annotations.NotFound;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@Entity
+@Table(name = "bookings")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Booking {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    // Many bookings -> one room
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "room_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private AdminRoom room;
+
+    // Many bookings -> one user
+    @NotFound
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private User user;
+
+    private LocalDate checkInDate;
+    private LocalDate checkOutDate;
+
+    private int adults;
+    private int children;
+    private int extraBed;
+
+    // Total price computed on booking
+    private double totalPrice;
+
+    // services attached to booking
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "booking_services",
+        joinColumns = @JoinColumn(name = "booking_id"),
+        inverseJoinColumns = @JoinColumn(name = "service_id")
+    )
+    private List<ExtraService> extraServices;
+
+   
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
+
+	public Booking(Long id, AdminRoom room, User user, LocalDate checkInDate, LocalDate checkOutDate, int adults,
+			int children, int extraBed, double totalPrice, List<ExtraService> extraServices, LocalDateTime createdAt,
+			LocalDateTime updatedAt) {
+		super();
+		this.id = id;
+		this.room = room;
+		this.user = user;
+		this.checkInDate = checkInDate;
+		this.checkOutDate = checkOutDate;
+		this.adults = adults;
+		this.children = children;
+		this.extraBed = extraBed;
+		this.totalPrice = totalPrice;
+		this.extraServices = extraServices;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+	}
+
+	public Booking() {
+		super();
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public AdminRoom getRoom() {
+		return room;
+	}
+
+	public void setRoom(AdminRoom room) {
+		this.room = room;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public LocalDate getCheckInDate() {
+		return checkInDate;
+	}
+
+	public void setCheckInDate(LocalDate checkInDate) {
+		this.checkInDate = checkInDate;
+	}
+
+	public LocalDate getCheckOutDate() {
+		return checkOutDate;
+	}
+
+	public void setCheckOutDate(LocalDate checkOutDate) {
+		this.checkOutDate = checkOutDate;
+	}
+
+	public int getAdults() {
+		return adults;
+	}
+
+	public void setAdults(int adults) {
+		this.adults = adults;
+	}
+
+	public int getChildren() {
+		return children;
+	}
+
+	public void setChildren(int children) {
+		this.children = children;
+	}
+
+	public int getExtraBed() {
+		return extraBed;
+	}
+
+	public void setExtraBed(int extraBed) {
+		this.extraBed = extraBed;
+	}
+
+	public double getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	public List<ExtraService> getExtraServices() {
+		return extraServices;
+	}
+
+	public void setExtraServices(List<ExtraService> extraServices) {
+		this.extraServices = extraServices;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+	
+	
+}
+

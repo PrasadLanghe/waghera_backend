@@ -14,7 +14,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/gallery")
+<<<<<<< HEAD
 @RequiredArgsConstructor
+=======
+
+>>>>>>> ee8c5a4 (Save local changes before pulling)
 @CrossOrigin(origins = "http://localhost:5173")
 public class GalleryController {
 

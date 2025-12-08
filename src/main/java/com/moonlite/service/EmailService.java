@@ -43,7 +43,11 @@
 
 package com.moonlite.service;
 
+<<<<<<< HEAD
 import lombok.RequiredArgsConstructor;
+=======
+
+>>>>>>> ee8c5a4 (Save local changes before pulling)
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -54,7 +58,11 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.util.ByteArrayDataSource;
 @Service
+<<<<<<< HEAD
 @RequiredArgsConstructor
+=======
+
+>>>>>>> ee8c5a4 (Save local changes before pulling)
 public class EmailService {
 	
     private final JavaMailSender mailSender;

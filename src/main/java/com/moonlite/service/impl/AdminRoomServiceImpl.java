@@ -10,7 +10,11 @@ import com.moonlite.exception.ResourceNotFoundException;
 import java.util.List;
 
 @Service
+<<<<<<< HEAD
 @RequiredArgsConstructor
+=======
+
+>>>>>>> ee8c5a4 (Save local changes before pulling)
 @Transactional
 public class AdminRoomServiceImpl implements AdminRoomService {
 

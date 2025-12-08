@@ -12,7 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+<<<<<<< HEAD
 @RequiredArgsConstructor
+=======
+
+>>>>>>> ee8c5a4 (Save local changes before pulling)
 public class AvailabilityService {
 
     private final AdminRoomRepository roomRepo;

@@ -12,7 +12,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Map;
 
 @Service
+<<<<<<< HEAD
 @RequiredArgsConstructor
+=======
+//@RequiredArgsConstructor
+>>>>>>> ee8c5a4 (Save local changes before pulling)
 public class GalleryServiceImpl implements GalleryService {
 
     private final GalleryRepository galleryRepository;

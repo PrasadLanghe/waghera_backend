@@ -1,7 +1,10 @@
 package com.moonlite.service;
 
+<<<<<<< HEAD
 
 import lombok.RequiredArgsConstructor;
+=======
+>>>>>>> ee8c5a4 (Save local changes before pulling)
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,7 +12,11 @@ import com.moonlite.model.Activity;
 import com.moonlite.repository.ActivityRepository;
 
 @Service
+<<<<<<< HEAD
 @RequiredArgsConstructor
+=======
+
+>>>>>>> ee8c5a4 (Save local changes before pulling)
 
 public class ActivityService {
 

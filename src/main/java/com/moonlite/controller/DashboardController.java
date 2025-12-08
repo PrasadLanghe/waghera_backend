@@ -13,7 +13,11 @@ import java.util.*;
 @RestController
 @RequestMapping("/api/dashboard")
 @CrossOrigin(origins = "*")
+<<<<<<< HEAD
 @RequiredArgsConstructor
+=======
+
+>>>>>>> ee8c5a4 (Save local changes before pulling)
 public class DashboardController {
 
     private final BookingRepository bookingRepository;

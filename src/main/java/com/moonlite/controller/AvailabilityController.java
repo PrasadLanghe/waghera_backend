@@ -13,7 +13,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/availability")
 @CrossOrigin(origins = "*")
+<<<<<<< HEAD
 @RequiredArgsConstructor
+=======
+
+>>>>>>> ee8c5a4 (Save local changes before pulling)
 public class AvailabilityController {
 
     private final AvailabilityService availabilityService;

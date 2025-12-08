@@ -10,7 +10,11 @@ import java.io.IOException;
 import java.util.Map;
 
 @Service
+<<<<<<< HEAD
 @RequiredArgsConstructor
+=======
+
+>>>>>>> ee8c5a4 (Save local changes before pulling)
 public class CloudinaryService {
 
     private final Cloudinary cloudinary;

@@ -14,7 +14,11 @@ import com.moonlite.service.PackageService;
 import java.util.List;
 
 @Service
+<<<<<<< HEAD
 @RequiredArgsConstructor
+=======
+//@RequiredArgsConstructor
+>>>>>>> ee8c5a4 (Save local changes before pulling)
 public  class PackageServiceImpl implements PackageService{
     private final PackageRepository packageRepository;
     private final CloudinaryService cloudinaryService;

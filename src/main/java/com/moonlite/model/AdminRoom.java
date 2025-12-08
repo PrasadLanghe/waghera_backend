@@ -7,9 +7,13 @@ import lombok.AllArgsConstructor;
 
 @Entity
 @Table(name = "admin_room")
+<<<<<<< HEAD
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+=======
+
+>>>>>>> ee8c5a4 (Save local changes before pulling)
 public class AdminRoom {
 
     @Id

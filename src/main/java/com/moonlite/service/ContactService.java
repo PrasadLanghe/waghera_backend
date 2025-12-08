@@ -2,7 +2,10 @@ package com.moonlite.service;
 
 
 
+<<<<<<< HEAD
 import lombok.Builder;
+=======
+>>>>>>> ee8c5a4 (Save local changes before pulling)
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +14,11 @@ import com.moonlite.payload.ContactRequest;
 import com.moonlite.repository.ContactRepository;
 
 @Service
+<<<<<<< HEAD
 @RequiredArgsConstructor
+=======
+
+>>>>>>> ee8c5a4 (Save local changes before pulling)
 
 public class ContactService {
 
